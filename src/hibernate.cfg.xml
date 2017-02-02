@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+	
+<hibernate-configuration>
+<session-factory>
+	<!-- 常规配置 -->
+	<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+	<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/tieba?useUnicode=true&amp;characterEncoding=utf8</property>
+	<property name="hibernate.connection.username">root</property>
+	<property name="hibernate.connection.password">123123</property>
+
+	<!-- 方言 ，全限定名-->
+	<property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+
+	<!-- 其它配置(格式化sql,显示sql) 
+	<property name="hibernate.format_sql">true</property>
+	<property name="hibernate.show_sql">true</property>
+	-->
+
+	<!-- 映射文件中是否自动建表 -->
+	<property name="hibernate.hbm2ddl.auto">update</property>
+
+	<!-- 在java 6.0 web项目中需要将对象验证取消 -->
+	<!--  <property name="javax.persistence.validation.mode">none</property> -->
+
+	<!-- 配置session与本地线程绑定 -->
+	<property name="hibernate.current_session_context_class">thread</property>
+
+	<!-- 添加映射文件-->
+	<mapping resource="cn/itcast/tieba/domain/Topic.hbm.xml" />
+	<mapping resource="cn/itcast/tieba/domain/Reply.hbm.xml" />
+	<mapping resource="cn/itcast/tieba/domain/Manager.hbm.xml" />
+	<mapping resource="cn/itcast/tieba/domain/User.hbm.xml"/>
+</session-factory>
+</hibernate-configuration>

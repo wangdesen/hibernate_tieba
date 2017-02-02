@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="gb2312"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<!-- 开发模式 -->
+	<constant name="struts.devMode" value="true"/>
+	<!-- 简单主题 -->
+	<constant name="struts.ui.theme" value="simple"/>
+	
+	<package name="tieba" namespace="/" extends="struts-default">
+		
+		<!-- 主题贴 -->
+		<action name="topicAction_*" class="cn.itcast.tieba.web.actions.TopicAction" method="{1}">
+			<!-- 查询所有 -->
+			<result name="findAll">/listTopics.jsp</result>
+			<!-- 发贴 -->
+			<result name="add" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">topicAction_findAll?page_num=1</param>
+			</result>
+			<!-- 通过id查询 -->
+			<result name="findById">/showTopic.jsp</result>
+			<!-- 通过id删除 -->
+			<result name="deleteById" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">topicAction_findAll?page_num=1</param>
+			</result>
+		</action>
+		
+		<!-- 回复贴 -->
+		<action name="replyAction_*" class="cn.itcast.tieba.web.actions.ReplyAction" method="{1}">
+			<!-- 回复 -->
+			<result name="add" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">topicAction_findById?id=${topic.id}</param>
+			</result>
+			<!-- 审核功能 -->
+			<result name="checkReplyState" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">managerTopicAction_findById?id=${topic.id}</param>
+			</result>
+			<!-- 管理员回复 -->
+			<result name="managerAdd" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">managerTopicAction_findById?id=${topic.id}</param>
+			</result>
+			<!-- 通过id删除 -->
+			<result name="deleteById" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">managerTopicAction_findById?id=${topic.id}</param>
+			</result>
+		</action>
+		
+		<!-- 管理员 -->
+		<action name="managerAction_*" class="cn.itcast.tieba.web.actions.ManagerAction" method="{1}">
+			<!-- 登录成功 -->
+			<result name="login" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">managerTopicAction_findAll?page_num=1</param>
+			</result>
+			<!-- 错误提示 -->
+			<result name="input">/login.jsp</result>
+			<!-- 退出 -->
+			<result name="logout" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">topicAction_findAll?page_num=1</param>
+			</result>
+		</action>
+		
+		<!-- 普通用户 -->
+		<action name="userAction_*" class="cn.itcast.tieba.web.actions.UserAction" method="{1}">
+			<!-- 用户注册-->
+			<result name="add">/registerSuccess.jsp</result>
+			<result name="error">/register.jsp</result>
+		    <!-- 登陆成功 -->
+		    <result name="login" type="redirectAction">
+		        <param name="namespace">/</param>
+		        <param name="actionName">topicAction_findAll?page_num=1</param>
+		    </result>
+		    <!-- 登录失败 -->
+		    <result name="input">/login.jsp</result>
+		    <!-- 退出 -->
+		    <result name="logout" type="redirectAction">
+		        <param name="namespace">/</param>
+		        <param name="actionName">topicAction_findAll?page_num=1</param>
+		    </result>
+		</action>
+		
+		<!-- 管理主题帖 -->
+		<action name="managerTopicAction_*" class="cn.itcast.tieba.web.actions.ManagerTopicAction" method="{1}">
+			<!-- 查询所有 -->
+			<result name="findAll">/managerListTopics.jsp</result>
+			<!-- 发贴 -->
+			<result name="add" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">managerTopicAction_findAll?page_num=1</param>
+			</result>
+			<!-- 通过id查询 -->
+			<result name="findById">/managerShowTopic.jsp</result>
+			<!-- 通过id删除 -->
+			<result name="deleteById" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">managerTopicAction_findAll?page_num=1</param>
+			</result>
+			<!-- 更新审核状态 -->
+			<result name="checkTopicState" type="redirectAction">
+				<param name="namespace">/</param>
+				<param name="actionName">managerTopicAction_findAll?page_num=1</param>
+			</result>
+			<result name="findTopicByState">/managerListTopics.jsp</result>
+		</action>
+	</package>
+</struts>
